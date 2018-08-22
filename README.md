@@ -24,14 +24,14 @@ identical.  The General further
 
 # ClassRoom-Tutorial.md
 
+<a href="https://github.com/turnerg/Jetstream-API-tutorial/blob/master/ClassRoom-Tutorial.md">
+ClassRoom-Tutorial</a> 
 
 
 # General-Tutorial.md
 
 
-<a href="https://docs.openstack.org/python-openstackclient/latest/">
-OpenStack command line interface (CLI)</a> 
-
-
+<a href="https://github.com/turnerg/Jetstream-API-tutorial/blob/master/General-Tutorial.md">
+General-Tutorial</a> 
 
 
