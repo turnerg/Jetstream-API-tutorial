@@ -1,28 +1,36 @@
 # Jetstream-API-tutorial
 
 A brief introduction to using command line clients to create, manipulate,
-utilize, remove, and destroy OpenStack cyberinfrastructure.  
+utilize, remove, and/or destroy OpenStack cyberinfrastructure.  
 
 You will find two different 
-versions in this repository.  
-The two tutorials are the identical with the exception of the naming convention 
+versions of the tutorial in this repository.  
+The two tutorials are identical with the exception of the naming convention 
 of OpenStack entities.
-The ClassRoom tutorial uses
-the nomenclature ${OS_USERNAME}-whatnot to name OpenStack entities and the General tutorial 
-uses the nomenclature ${OS_PROJECT_NAME}-${OS_USERNAME}-whatnot
+The ClassRoom-Tutorial uses
+the nomenclature <i>${OS_USERNAME}</i>-whatnot to name OpenStack entities and the General-Tutorial 
+uses the nomenclature <i>${OS_PROJECT_NAME}-${OS_USERNAME}</i>-whatnot.  
+
+One of the goals was that 
+one could cut-&-paste the commands instead of fiddling with typing, the resulting typos, frustrations,
+and falling behind in the tutorial.  This goal was met with the exception of one command that 
+creates the IP address; the user will have to look at the output, grab the IP address, 
+and enter it into the following associate command.
+
+Why is all of this important? OpenStack will let you create more than one entity with
+the same name. When this occurs, you have to use the UUID (that long horrible string) 
+instead of the easy to remember name. 
 
 
+
+
+# ClassRoom-Tutorial.md
 
 In a classroom setting, all the users are in the same OpenStack project and using
 the OS_PROJECT_NAME is redundant, confusing, and causes unnecessary typing.  
+The ClassRoom-Tutorial is also useful if you are the only user in a project; i.e. 
+you won't be creating infrastructure that has the same name as a co-worker.
 
-The General-Tutorial is useful
-in a setting where there are multiple users operating in one OpenStack project. 
-If you are the only user in a project, or good at coordinating with your co-workers, 
-the ClassRoom-Tutorial would work fine.  Again, the two tutorials are (meant to be) 
-identical.  The General further 
-
-# ClassRoom-Tutorial.md
 
 <a href="https://github.com/turnerg/Jetstream-API-tutorial/blob/master/ClassRoom-Tutorial.md">
 ClassRoom-Tutorial</a> 
@@ -30,6 +38,12 @@ ClassRoom-Tutorial</a>
 
 # General-Tutorial.md
 
+The General-Tutorial is useful
+in a setting where there are multiple users operating in one OpenStack project; this allows
+your infrastructure to co-exist with your co-workers.  Again, this is meant mostly
+in a learning environment; once you understand what's going on, you could create 
+entities with meaningful names and share infrastructure. 
+ 
 
 <a href="https://github.com/turnerg/Jetstream-API-tutorial/blob/master/General-Tutorial.md">
 General-Tutorial</a> 

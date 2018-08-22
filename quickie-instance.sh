@@ -1,7 +1,7 @@
 #!/bin/bash 
 
-# Copyright 2018
-# All rights reserved, Trustees of Indiana University
+# Copyright 2018 The Trustees of Indiana University
+# All rights reserved
 # et cētera
 
 # Actually, this really isn't ready for public consumption
