@@ -35,3 +35,13 @@ ClassRoom-Tutorial</a>
 General-Tutorial</a> 
 
 
+# Quickie Script
+
+If you have used the General-Tutorial and left the network, keys, etc. in place, you 
+can use this script to spin up a quick instance.
+<a href="https://github.com/turnerg/Jetstream-API-tutorial/blob/master/quickie-instance.sh">
+quickie-instance.sh</a> 
+
+### Parameter #1 is the name of the image to boot otherwise use the latest CentOS-7 image
+### Parameter #2 is the name to give the running instance; default is the image name with a random string appended
+### PArameter #3 is the instance flavor to create; default is to make it a tiny
