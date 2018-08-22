@@ -24,7 +24,7 @@ who created them.
 
 
 
-One of the goals was that 
+One final note, one of the goals was that 
 one could cut-&-paste the commands instead of fiddling with typing, the resulting typos, frustrations,
 and falling behind in the tutorial.  This goal was met with the exception of one command that 
 creates the IP address; the user will have to look at the output, grab the IP address, 
