@@ -1,4 +1,5 @@
-# Jetstream-API-tutorial
+# General Use Case OpenStack API tutorial
+
 A brief introduction to using command line clients to create, manipulate, utilize, and destroy OpenStack cyberinfrastructure.
 
 # Introduction to OpenStack CLI
@@ -180,14 +181,14 @@ openstack security group create --description "ssh & icmp enabled" ${OS_USERNAME
 Create a rule for allowing ssh inbound from an IP address
 
 ```
-openstack security group rule create --proto tcp --dst-port 22:22 --src-ip 0.0.0.0/0 ${OS_USERNAME}-global-ssh
+openstack security group rule create --proto tcp --dst-port 22:22 --src-ip 0.0.0.0/0 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
 
 ```
 
 Create a rule that allows ping and other ICMP packets
 
 ```
-openstack security group rule create --proto icmp ${OS_USERNAME}-global-ssh
+openstack security group rule create --proto icmp ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
 
 ```
 
@@ -195,21 +196,21 @@ Optional rule to allow connectivity within a mini-cluster;  i.e. if you boot mor
 than one instance, this rule allows for comminications amonst all those instances.
 
 ```
-openstack security group rule create --proto tcp --dst-port 1:65535 --src-ip 10.0.0.0/0 ${OS_USERNAME}-global-ssh
-openstack security group rule create --proto udp --dst-port 1:65535 --src-ip 10.0.0.0/0 ${OS_USERNAME}-global-ssh
+openstack security group rule create --proto tcp --dst-port 1:65535 --src-ip 10.0.0.0/0 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
+openstack security group rule create --proto udp --dst-port 1:65535 --src-ip 10.0.0.0/0 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
 
 A better (more restrictive) example might be:
 
-openstack security group rule create --proto tcp --dst-port 1:65535 --src-ip 10.X.Y.0/0 ${OS_USERNAME}-global-ssh
-openstack security group rule create --proto udp --dst-port 1:65535 --src-ip 10.X.Y.0/0 ${OS_USERNAME}-global-ssh
+openstack security group rule create --proto tcp --dst-port 1:65535 --src-ip 10.X.Y.0/0 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
+openstack security group rule create --proto udp --dst-port 1:65535 --src-ip 10.X.Y.0/0 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
 
 ```
 
 Adding/removing security groups after an instance is running
 
 ```
-openstack server add    security group ${OS_USERNAME}-api-U-1 ${OS_USERNAME}-global-ssh
-openstack server remove security group ${OS_USERNAME}-api-U-1 ${OS_USERNAME}-global-ssh
+openstack server add    security group ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
+openstack server remove security group ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh
 
 ```
 
@@ -224,13 +225,13 @@ tutorial we will create a passwordless key.  In the real world, you would
 not want to do this
 
 ```
-ssh-keygen -b 2048 -t rsa -f ${OS_USERNAME}-api-key -P ""
+ssh-keygen -b 2048 -t rsa -f ${OS_PROJECT_NAME}-${OS_USERNAME}-api-key -P ""
 ```
 
 Upload your key to OpenStack
 
 ```
-openstack keypair create --public-key ${OS_USERNAME}-api-key.pub ${OS_USERNAME}-api-key
+openstack keypair create --public-key ${OS_PROJECT_NAME}-${OS_USERNAME}-api-key.pub ${OS_PROJECT_NAME}-${OS_USERNAME}-api-key
 
 ```
 
@@ -240,7 +241,7 @@ openstack keypair create --public-key ${OS_USERNAME}-api-key.pub ${OS_USERNAME}-
 Create the network
 
 ```
-openstack network create ${OS_USERNAME}-api-net
+openstack network create ${OS_PROJECT_NAME}-${OS_USERNAME}-api-net
 
 ```
 
@@ -254,34 +255,34 @@ Create a subnet within your network.  Note the X & Y in the address range.  Each
 in this class (technically, this OpenStack project) will need to use a unique subnet range
 
 ```
-openstack subnet create --network ${OS_USERNAME}-api-net --subnet-range 10.X.Y.0/24 ${OS_USERNAME}-api-subnet1
+openstack subnet create --network ${OS_PROJECT_NAME}-${OS_USERNAME}-api-net --subnet-range 10.X.Y.0/24 ${OS_PROJECT_NAME}-${OS_USERNAME}-api-subnet1
 
 ```
 
 Create a router
 
 ```
-openstack router create ${OS_USERNAME}-api-router
+openstack router create ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router
 ```
 
 Attach your subnet to the router 
 
 ```
-openstack router add subnet ${OS_USERNAME}-api-router ${OS_USERNAME}-api-subnet1
+openstack router add subnet ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router ${OS_PROJECT_NAME}-${OS_USERNAME}-api-subnet1
 
 ```
 
 Attach your router to the public (externally routed) network
 
 ```
-openstack router set --external-gateway public ${OS_USERNAME}-api-router
+openstack router set --external-gateway public ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router
 
 ```
 
 Note the details of your router
 
 ```
-openstack router show ${OS_USERNAME}-api-router
+openstack router show ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router
 
 ```
 
@@ -313,16 +314,16 @@ usable.
 
 ```
 
-openstack server create ${OS_USERNAME}-api-U-1 \
+openstack server create ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 \
 --flavor <FLAVOR> \
 --image <IMAGE-NAME> \
---key-name ${OS_USERNAME}-api-key \
---security-group ${OS_USERNAME}-global-ssh \
---nic net-id=${OS_USERNAME}-api-net
+--key-name ${OS_PROJECT_NAME}-${OS_USERNAME}-api-key \
+--security-group ${OS_PROJECT_NAME}-${OS_USERNAME}-global-ssh \
+--nic net-id=${OS_PROJECT_NAME}-${OS_USERNAME}-api-net
 
 ```
 
-Note that ${OS_USERNAME}-api-U-1 is the name of the running instance. Pick a 
+Note that ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 is the name of the running instance. Pick a 
 name that means something to you.  Each instance you boot should have a unique
 name; otherwise, you will have to control your instances via the UUID
 
@@ -336,7 +337,7 @@ openstack floating ip create public
 ...then add that IP address to your running instance.
 
 ```
-openstack server add floating ip ${OS_USERNAME}-api-U-1 <your.ip.number.here>
+openstack server add floating ip ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 <your.ip.number.here>
 
 ```
 
@@ -354,8 +355,8 @@ ssh root@<your.ip.number.here>
 
 Reboot the instance (shutdown -r now).
 ```
-openstack server reboot ${OS_USERNAME}-api-U-1
-openstack server reboot ${OS_USERNAME}-api-U-1 --hard
+openstack server reboot ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
+openstack server reboot ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 --hard
 
 ```
 
@@ -365,8 +366,8 @@ host so that when you decide restart the instance, resources are available to
 activate the instance.
 
 ```
-openstack server stop ${OS_USERNAME}-api-U-1
-openstack server start ${OS_USERNAME}-api-U-1
+openstack server stop ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
+openstack server start ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
 
 ```
 
@@ -375,8 +376,8 @@ Note that your instance still remains in memory, state is retained, and resource
 to be reserved on the compute host assuming that you will be restarting the instance.
 
 ```
-openstack server pause   ${OS_USERNAME}-api-U-1
-openstack server unpause ${OS_USERNAME}-api-U-1
+openstack server pause   ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
+openstack server unpause ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
 
 ```
 
@@ -385,8 +386,8 @@ Note that resources are still reserved on the compute host for when you
 decide restart the instance
 
 ```
-openstack server suspend ${OS_USERNAME}-api-U-1
-openstack server resume  ${OS_USERNAME}-api-U-1
+openstack server suspend ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
+openstack server resume  ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
 
 ```
 
@@ -394,8 +395,8 @@ Shut the instance down and move to storage.  Memory state is not maintained. Eph
 storage is maintained. 
 
 ```
-openstack server shelve ${OS_USERNAME}-api-U-1
-openstack server unshelve ${OS_USERNAME}-api-U-1
+openstack server shelve ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
+openstack server unshelve ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
 
 ```
 
@@ -409,7 +410,7 @@ for completeness.  And, to clean up for the next class.
 Remove the IP from the instance
 
 ```
-openstack server remove floating ip ${OS_USERNAME}-api-U-1 <your.ip.number.here>
+openstack server remove floating ip ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1 <your.ip.number.here>
 
 ```
 
@@ -423,42 +424,42 @@ openstack floating ip delete <your.ip.number.here>
 Delete the instance
 
 ```
-openstack server delete ${OS_USERNAME}-api-U-1
+openstack server delete ${OS_PROJECT_NAME}-${OS_USERNAME}-api-U-1
 
 ```
 
 Unplug your router from the public network
 
 ```
-openstack router unset --external-gateway ${OS_USERNAME}-api-router
+openstack router unset --external-gateway ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router
 
 ```
 
 Remove the subnet from the network
 
 ```
-openstack router remove subnet ${OS_USERNAME}-api-router ${OS_USERNAME}-api-subnet1
+openstack router remove subnet ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router ${OS_PROJECT_NAME}-${OS_USERNAME}-api-subnet1
 
 ```
 
 Delete the router
 
 ```
-openstack router delete ${OS_USERNAME}-api-router
+openstack router delete ${OS_PROJECT_NAME}-${OS_USERNAME}-api-router
 
 ```
 
 Delete the subnet
 
 ```
-openstack subnet delete ${OS_USERNAME}-api-subnet1
+openstack subnet delete ${OS_PROJECT_NAME}-${OS_USERNAME}-api-subnet1
 
 ```
 
 Delete the network
 
 ```
-openstack network delete ${OS_USERNAME}-api-net
+openstack network delete ${OS_PROJECT_NAME}-${OS_USERNAME}-api-net
 
 ```
 
@@ -475,5 +476,5 @@ host with the openstack CLI clients installed.  You can safely skip
 this step and proceed with executing the openstack commands you see
 in the tutorial. 
 
-
+Ya' need to get Geo's Quickie script!!!!
 

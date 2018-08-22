@@ -1,4 +1,5 @@
-# Jetstream-API-tutorial
+# Class Room Use Case OpenStack API tutorial
+
 A brief introduction to using command line clients to create, manipulate, utilize, and destroy OpenStack cyberinfrastructure.
 
 # Introduction to OpenStack CLI
