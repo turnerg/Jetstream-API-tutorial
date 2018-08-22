@@ -2,11 +2,16 @@
 
 # Copyright 2018
 # All rights reserved, Trustees of Indiana University
+# et cētera
+
+# Actually, this really isn't ready for public consumption
+# ...except for my co-workers beta testing it 
+
 # V. 180822.01
 
-# $1 is the name of the image to boot otherwise use (presumably) the latest CentOS-7 image
-# $2 is to be the name of the running instance
-# $3 is the instance flavor to create; otherwise, make it a tiny
+# $1 is the name of the image to boot otherwise use the latest CentOS-7 image
+# $2 is the name to give the running instance; default is the image name with a random string appended
+# $3 is the instance flavor to create; default is to make it a tiny
 
 if [ "$OS_PROJECT_NAME" == "" ] && [ "$OS_PROJECT_ID" == "" ] ; then
   echo No OpenStack Project defined
